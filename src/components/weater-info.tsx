@@ -10,6 +10,15 @@ interface Props {
     setCity: (x: string) => void;
     setError: (x: string) => void;
 }
+interface ButtonLocationProps {
+    materialIcons: string;
+    GetLocation: (setCity: (x: string) => void) => void;
+    setCity: (x: string) => void;
+}
+interface WaterShowProps {
+    getImage: (x: string[]) => string;
+    weatherDescriptions: string[];
+}
 
 const WeatherInfo: React.FC<Props> = ({ items, setCity, setError }) => {
     const {
@@ -106,23 +115,19 @@ const WeatherInfo: React.FC<Props> = ({ items, setCity, setError }) => {
                         </NameCity>
                     </ButtonsCityContainer>
                     <ButtonLocationContainer>
-                        <ButtonLocation
-                            className="material-icons"
-                            onClick={() => GetLocation(setCity)}
-                        >
-                            room
-                        </ButtonLocation>
+                        <ButtonLocationComponent
+                            materialIcons={'room'}
+                            GetLocation={GetLocation}
+                            setCity={setCity}
+                        />
                     </ButtonLocationContainer>
                 </ButtonsContainer>
                 <WeatherInfoContainer>
                     <WeaterTypeContainer>
-                        <WaterShow
-                            className={`material-icons ${getImage(
-                                weatherDescriptions
-                            )}`}
-                        >
-                            {getImage(weatherDescriptions)}
-                        </WaterShow>
+                        <WaterShowComponent
+                            getImage={getImage}
+                            weatherDescriptions={weatherDescriptions}
+                        />
                         <WeatherType>{weatherDescriptions}</WeatherType>
                     </WeaterTypeContainer>
                     <WeatherTemperatureContainer>
@@ -149,6 +154,30 @@ const WeatherInfo: React.FC<Props> = ({ items, setCity, setError }) => {
         </>
     );
 };
+
+const ButtonLocationComponent: React.FC<ButtonLocationProps> = ({
+    materialIcons,
+    GetLocation,
+    setCity,
+}) => (
+    <ButtonLocation
+        className={'material-icons'}
+        onClick={() => {
+            GetLocation(setCity);
+        }}
+    >
+        {materialIcons}
+    </ButtonLocation>
+);
+
+const WaterShowComponent: React.FC<WaterShowProps> = ({
+    getImage,
+    weatherDescriptions,
+}) => (
+    <WaterShow className={`material-icons ${getImage(weatherDescriptions)}`}>
+        {getImage(weatherDescriptions)}
+    </WaterShow>
+);
 
 const HeaderContainer = styled.div`
     width: 100%;

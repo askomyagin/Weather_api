@@ -12,12 +12,9 @@ export interface Weather {
 }
 
 export default class WeaterService {
-    _apiBase = 'http://api.weatherstack.com/';
-    _apiKey = 'f7a24387a8af60d7fdad7b7e2c95aca2';
-
     getCurrent = async (city: string): Promise<Weather> => {
         const res = await fetch(
-            `${this._apiBase}/current?access_key=${this._apiKey}&query=${city}`
+            `${process.env.REACT_APP_API_BASE}/current?access_key=${process.env.REACT_APP_API_KEY}&query=${city}`
         );
         if (!res.ok) {
             throw new Error(`Could not fetch, received ${res.status}`);

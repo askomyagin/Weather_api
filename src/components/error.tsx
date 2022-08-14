@@ -6,6 +6,10 @@ interface Props {
     setError: (x: string) => void;
 }
 
+interface ErrorIconProps {
+    materialIcons: string;
+}
+
 const Error: React.FC<Props> = ({ error, setCity, setError }) => {
     const buttonPush = () => {
         if (localStorage.getItem('city') === localStorage.getItem('location')) {
@@ -23,13 +27,17 @@ const Error: React.FC<Props> = ({ error, setCity, setError }) => {
     return (
         <ErrorContainer>
             <ErrorContainerBorder>
-                <ErrorIcon className="material-icons">error_outline</ErrorIcon>
+                <ErrorIconComponent materialIcons={'error_outline'} />
                 <ErrorText>{error}</ErrorText>
                 <ErrorButton onClick={buttonPush}>Back Main Page</ErrorButton>
             </ErrorContainerBorder>
         </ErrorContainer>
     );
 };
+
+const ErrorIconComponent: React.FC<ErrorIconProps> = ({ materialIcons }) => (
+    <ErrorIcon className={'material-icons'}>{materialIcons}</ErrorIcon>
+);
 
 const ErrorContainer = styled.div`
     width: 100%;

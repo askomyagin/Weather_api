@@ -7,6 +7,15 @@ interface Props {
     chooseCity: boolean;
 }
 
+interface ChoosingContainerProps {
+    chooseCity: boolean;
+}
+
+interface ButtonExitProps {
+    materialIcons: string;
+    setChooseCity: (x: boolean) => void;
+}
+
 const ChoosingCity: React.FC<Props> = ({
     setCity,
     setChooseCity,
@@ -22,17 +31,13 @@ const ChoosingCity: React.FC<Props> = ({
     }
 
     return (
-        <ChoosingContainer className={chooseCity ? 'active' : ''}>
+        <ChoosingContainer chooseCity={chooseCity}>
             {chooseCity && (
                 <>
-                    <ButtonExit
-                        className="material-icons"
-                        onClick={() => {
-                            setChooseCity(false);
-                        }}
-                    >
-                        close
-                    </ButtonExit>
+                    <ButtonExitComponent
+                        materialIcons={'close'}
+                        setChooseCity={setChooseCity}
+                    />
                     <ChooseCityContainer>
                         <ChooseCityTitle>Choose City:</ChooseCityTitle>
                         <ChooseCityFor onSubmit={handleSubmit}>
@@ -53,22 +58,19 @@ const ChoosingCity: React.FC<Props> = ({
     );
 };
 
-const ChoosingContainer = styled.div`
-    position: absolute;
-    width: 0px;
+const ChoosingContainer = styled.div<ChoosingContainerProps>`
+    width: ${(props) => (props.chooseCity ? '400px' : '0px')};
+    background-color: ${(props) => (props.chooseCity ? '#844a87' : 'none')};
+    transform: ${(props) => (props.chooseCity ? 'translateX(0)' : 'none')};
+    visibility: ${(props) => (props.chooseCity ? 'visible' : 'hidden')};
     height: 400px;
     transition: all 0.2s;
-    visibility: hidden;
+    position: absolute;
     display: flex;
     align-items: center;
     justify-content: center;
-    &.active {
-        visibility: visible;
-        width: 400px;
-        background-color: #844a87;
-        transform: translateX(0);
-    }
 `;
+
 const ChooseCityButton = styled.button`
     border: none;
     outline: none;
@@ -107,6 +109,20 @@ const ButtonExit = styled.button`
     outline: none;
     color: white;
 `;
+
+const ButtonExitComponent: React.FC<ButtonExitProps> = ({
+    materialIcons,
+    setChooseCity,
+}) => (
+    <ButtonExit
+        className={'material-icons'}
+        onClick={() => {
+            setChooseCity(false);
+        }}
+    >
+        {materialIcons}
+    </ButtonExit>
+);
 
 const ChooseCityTitle = styled.div`
     color: white;

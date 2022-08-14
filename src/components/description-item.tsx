@@ -8,11 +8,9 @@ interface Item {
 
 const DescriptionItem = (props: Item) => {
     return (
-        <ItemContainer className="cloud-cover">
-            <MaterialIcons className="material-icons">
-                {props.material_icon}
-            </MaterialIcons>
-            <Description className="description">
+        <ItemContainer>
+            <MaterialIconsComponent material_icon={props.material_icon} />
+            <Description>
                 <CloudCoverValue>
                     <b>{props.value}</b>
                 </CloudCoverValue>
@@ -29,6 +27,17 @@ const ItemContainer = styled.div`
     display: flex;
     align-items: center;
 `;
+
+interface MaterialIconsProps {
+    material_icon: string;
+}
+
+const MaterialIconsComponent: React.FC<MaterialIconsProps> = ({
+    material_icon,
+}) => (
+    <MaterialIcons className={'material-icons'}>{material_icon}</MaterialIcons>
+);
+
 const MaterialIcons = styled.span`
     margin: 7%;
 `;
